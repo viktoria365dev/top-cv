@@ -1,10 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import GeneralSection from "./components/GeneralSection.jsx";
 import EducationSection from "./components/EducationSection.jsx";
 import ExperienceSection from "./components/ExperienceSection.jsx";
 import "./styles/App.css";
 
 export default function App() {
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Apply/remove dark class on <body>
+  useEffect(() => {
+    if (darkMode) {
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+    }
+  }, [darkMode]);
+
   // Top-level state for all sections
   const [general, setGeneral] = useState({
     name: "",
@@ -40,7 +51,22 @@ export default function App() {
 
   return (
     <div className="app">
-      <h1>CV Application</h1>
+      {/* Top bar with toggle */}
+      <div className="topbar">
+        <button
+          className="theme-toggle"
+          onClick={() => setDarkMode(!darkMode)}
+          aria-label="Toggle dark mode"
+        >
+          {darkMode ? "Light mode" : "Dark mode"}
+        </button>
+      </div>
+
+      {/* Header with photo + title */}
+      <div className="header">
+        <img src="/profile.png" alt="Profile" className="profile-photo" />
+        <h1>CV Application</h1>
+      </div>
 
       <GeneralSection
         data={general}

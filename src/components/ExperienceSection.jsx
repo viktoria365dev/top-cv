@@ -82,6 +82,22 @@ export default function ExperienceSection({
           </div>
 
           <div className="actions">
+            <button
+              type="button"
+              className="clear-btn"
+              onClick={() =>
+                setData({
+                  company: "",
+                  position: "",
+                  responsibilities: "",
+                  from: "",
+                  to: "",
+                })
+              }
+            >
+              Clear
+            </button>
+
             <button type="submit">Submit</button>
           </div>
         </form>

@@ -59,6 +59,14 @@ export default function GeneralSection({
           </label>
 
           <div className="actions">
+            <button
+              type="button"
+              className="clear-btn"
+              onClick={() => setData({ name: "", email: "", phone: "" })}
+            >
+              Clear
+            </button>
+
             <button type="submit">Submit</button>
           </div>
         </form>

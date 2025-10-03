@@ -58,6 +58,13 @@ export default function EducationSection({
           </label>
 
           <div className="actions">
+            <button
+              type="button"
+              className="clear-btn"
+              onClick={() => setData({ school: "", title: "", date: "" })}
+            >
+              Clear
+            </button>
             <button type="submit">Submit</button>
           </div>
         </form>

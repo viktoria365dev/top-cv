@@ -6,6 +6,12 @@
   background: #fff;
 }
 
+/* Dark mode section */
+body.dark .section {
+  background: #1f2937;
+  border-color: #374151;
+}
+
 .form {
   display: grid;
   gap: 0.75rem;
@@ -23,6 +29,26 @@ textarea {
   border-radius: 6px;
   padding: 0.5rem;
   font: inherit;
+  background: #fff;
+  color: #111827;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #6b7280;
+}
+
+/* Dark mode inputs */
+body.dark input,
+body.dark textarea {
+  background: #111827;
+  color: #f9fafb;
+  border: 1px solid #374151;
+}
+
+body.dark input::placeholder,
+body.dark textarea::placeholder {
+  color: #9ca3af;
 }
 
 .row {
@@ -37,17 +63,58 @@ textarea {
   margin-top: 0.5rem;
 }
 
-button {
+/* Default action buttons (Submit, Edit) */
+.actions button:not(.clear-btn) {
   background: #111827;
   color: white;
   border: none;
   border-radius: 6px;
   padding: 0.5rem 0.75rem;
   cursor: pointer;
+  transition: background 0.2s ease;
 }
 
-button:hover {
+.actions button:not(.clear-btn):hover {
   background: #1f2937;
+}
+
+/* Dark mode action buttons */
+body.dark .actions button:not(.clear-btn) {
+  background: #374151;
+  color: #f9fafb;
+}
+
+body.dark .actions button:not(.clear-btn):hover {
+  background: #4b5563;
+}
+
+/* Clear button */
+.clear-btn {
+  background-color: #f3f4f6;
+  color: #333;
+  border: 1px solid #aaa;
+  border-radius: 4px;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.clear-btn:hover {
+  background-color: #e5e7eb;
+  border-color: #888;
+}
+
+/* Dark mode clear button */
+body.dark .clear-btn {
+  background-color: #e5e7eb;
+  color: #111;
+  border-color: #9ca3af;
+}
+
+body.dark .clear-btn:hover {
+  background-color: #d1d5db;
+  border-color: #6b7280;
 }
 
 .display p {
