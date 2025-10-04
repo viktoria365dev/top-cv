@@ -2,14 +2,19 @@ import "../styles/Section.css";
 
 export default function EducationSection({
   data,
-  setData,
+  index,
+  updateEntry,
   isEditing,
   onSubmit,
   onEdit,
 }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
+    updateEntry({ ...data, [name]: value }, index);
+  };
+
+  const handleClear = () => {
+    updateEntry({ school: "", title: "", date: "" }, index);
   };
 
   return (
@@ -58,11 +63,7 @@ export default function EducationSection({
           </label>
 
           <div className="actions">
-            <button
-              type="button"
-              className="clear-btn"
-              onClick={() => setData({ school: "", title: "", date: "" })}
-            >
+            <button type="button" className="clear-btn" onClick={handleClear}>
               Clear
             </button>
             <button type="submit">Submit</button>

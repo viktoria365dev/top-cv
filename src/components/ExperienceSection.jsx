@@ -2,19 +2,33 @@ import "../styles/Section.css";
 
 export default function ExperienceSection({
   data,
-  setData,
+  index,
+  updateEntry,
   isEditing,
   onSubmit,
   onEdit,
 }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData((prev) => ({ ...prev, [name]: value }));
+    updateEntry({ ...data, [name]: value }, index);
+  };
+
+  const handleClear = () => {
+    updateEntry(
+      {
+        company: "",
+        position: "",
+        responsibilities: "",
+        from: "",
+        to: "",
+      },
+      index
+    );
   };
 
   return (
     <section className="section">
-      <h2>Practical experience</h2>
+      <h2>Work experience</h2>
 
       {isEditing ? (
         <form
@@ -82,22 +96,9 @@ export default function ExperienceSection({
           </div>
 
           <div className="actions">
-            <button
-              type="button"
-              className="clear-btn"
-              onClick={() =>
-                setData({
-                  company: "",
-                  position: "",
-                  responsibilities: "",
-                  from: "",
-                  to: "",
-                })
-              }
-            >
+            <button type="button" className="clear-btn" onClick={handleClear}>
               Clear
             </button>
-
             <button type="submit">Submit</button>
           </div>
         </form>

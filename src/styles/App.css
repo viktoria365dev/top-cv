@@ -77,3 +77,38 @@ h1 {
 body.dark .profile-photo {
   border-color: #4b5563;
 }
+
+.add-btn {
+  background: #10b981;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.4rem 0.8rem;
+  margin: 1rem 0;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.add-btn:hover {
+  background: #059669;
+}
+
+body.dark .add-btn {
+  background: #047857;
+  color: #f9fafb;
+}
+
+body.dark .add-btn:hover {
+  background: #065f46;
+}
+
+body.dark .clear-btn {
+  background-color: #374151;
+  color: #f9fafb;
+  border-color: #4b5563;
+}
+
+body.dark .clear-btn:hover {
+  background-color: #4b5563;
+  border-color: #6b7280;
+}

@@ -16,38 +16,34 @@ export default function App() {
     }
   }, [darkMode]);
 
-  // Top-level state for all sections
+  // General info
   const [general, setGeneral] = useState({
     name: "",
     email: "",
     phone: "",
   });
-  const [education, setEducation] = useState({
-    school: "",
-    title: "",
-    date: "",
-  });
-  const [experience, setExperience] = useState({
-    company: "",
-    position: "",
-    responsibilities: "",
-    from: "",
-    to: "",
-  });
 
-  // Edit mode flags per section
+  // Multiple entries
+  const [educationList, setEducationList] = useState([
+    { school: "", title: "", date: "" },
+  ]);
+
+  const [experienceList, setExperienceList] = useState([
+    { company: "", position: "", responsibilities: "", from: "", to: "" },
+  ]);
+
+  // Dynamic edit mode flags
   const [editMode, setEditMode] = useState({
     general: true,
-    education: true,
-    experience: true,
+    education0: true,
+    experience0: true,
   });
 
-  // Handlers to toggle edit/submit
-  const submitSection = (section) =>
-    setEditMode((prev) => ({ ...prev, [section]: false }));
+  // Handlers for dynamic keys
+  const handleSubmit = (key) =>
+    setEditMode((prev) => ({ ...prev, [key]: false }));
 
-  const editSection = (section) =>
-    setEditMode((prev) => ({ ...prev, [section]: true }));
+  const handleEdit = (key) => setEditMode((prev) => ({ ...prev, [key]: true }));
 
   return (
     <div className="app">
@@ -68,29 +64,80 @@ export default function App() {
         <h1>CV Application</h1>
       </div>
 
+      {/* General section */}
       <GeneralSection
         data={general}
         setData={setGeneral}
         isEditing={editMode.general}
-        onSubmit={() => submitSection("general")}
-        onEdit={() => editSection("general")}
+        onSubmit={() => handleSubmit("general")}
+        onEdit={() => handleEdit("general")}
       />
 
-      <EducationSection
-        data={education}
-        setData={setEducation}
-        isEditing={editMode.education}
-        onSubmit={() => submitSection("education")}
-        onEdit={() => editSection("education")}
-      />
+      {/* Education entries */}
+      {educationList.map((entry, index) => (
+        <EducationSection
+          key={index}
+          data={entry}
+          index={index} // ✅ pass index
+          updateEntry={(updated, i) =>
+            setEducationList((prev) =>
+              prev.map((item, j) => (j === i ? updated : item))
+            )
+          }
+          isEditing={editMode[`education${index}`] ?? true}
+          onSubmit={() => handleSubmit(`education${index}`)}
+          onEdit={() => handleEdit(`education${index}`)}
+        />
+      ))}
 
-      <ExperienceSection
-        data={experience}
-        setData={setExperience}
-        isEditing={editMode.experience}
-        onSubmit={() => submitSection("experience")}
-        onEdit={() => editSection("experience")}
-      />
+      {/* Add Education Button */}
+      <button
+        className="add-btn"
+        onClick={() =>
+          setEducationList((prev) => [
+            ...prev,
+            { school: "", title: "", date: "" },
+          ])
+        }
+      >
+        + Add Education
+      </button>
+
+      {/* Experience entries */}
+      {experienceList.map((entry, index) => (
+        <ExperienceSection
+          key={index}
+          data={entry}
+          index={index}
+          updateEntry={(updated, i) =>
+            setExperienceList((prev) =>
+              prev.map((item, j) => (j === i ? updated : item))
+            )
+          }
+          isEditing={editMode[`experience${index}`] ?? true}
+          onSubmit={() => handleSubmit(`experience${index}`)}
+          onEdit={() => handleEdit(`experience${index}`)}
+        />
+      ))}
+
+      {/* Add Experience Button */}
+      <button
+        className="add-btn"
+        onClick={() =>
+          setExperienceList((prev) => [
+            ...prev,
+            {
+              company: "",
+              position: "",
+              responsibilities: "",
+              from: "",
+              to: "",
+            },
+          ])
+        }
+      >
+        + Add Work Experience
+      </button>
     </div>
   );
 }
