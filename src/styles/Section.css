@@ -4,6 +4,7 @@
   padding: 1rem;
   margin: 1rem 0;
   background: #fff;
+  box-sizing: border-box;
 }
 
 /* Dark mode section */
@@ -15,6 +16,9 @@ body.dark .section {
 .form {
   display: grid;
   gap: 0.75rem;
+  padding-right: 0.25rem;
+  padding-left: 0.25rem;
+  min-width: 0;
 }
 
 label {
@@ -31,6 +35,11 @@ textarea {
   font: inherit;
   background: #fff;
   color: #111827;
+
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 input::placeholder,
@@ -53,8 +62,9 @@ body.dark textarea::placeholder {
 
 .row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
   gap: 0.75rem;
+  min-width: 0;
 }
 
 .actions {
@@ -119,4 +129,52 @@ body.dark .clear-btn:hover {
 
 .display p {
   margin: 0.25rem 0;
+}
+
+.present-toggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+
+  justify-self: start;
+  white-space: nowrap;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem 0.75rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+
+body.dark .delete-btn {
+  background: #b91c1c;
+}
+
+body.dark .delete-btn:hover {
+  background: #991b1b;
+}
+
+@media (max-width: 600px) {
+  .actions {
+    flex-direction: column;
+  }
+
+  .actions button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 500px) {
+  .row {
+    grid-template-columns: 1fr;
+  }
 }

@@ -7,6 +7,7 @@ export default function EducationSection({
   isEditing,
   onSubmit,
   onEdit,
+  onDelete, // ✅ new
 }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -14,7 +15,10 @@ export default function EducationSection({
   };
 
   const handleClear = () => {
-    updateEntry({ school: "", title: "", date: "" }, index);
+    updateEntry(
+      { school: "", title: "", from: "", to: "", present: false },
+      index
+    );
   };
 
   return (
@@ -51,15 +55,43 @@ export default function EducationSection({
             />
           </label>
 
-          <label>
-            Date of study
+          <div className="row">
+            <label>
+              From
+              <input
+                type="month"
+                name="from"
+                value={data.from}
+                onChange={handleChange}
+                required
+              />
+            </label>
+
+            <label>
+              To
+              <input
+                type="month"
+                name="to"
+                value={data.to}
+                onChange={handleChange}
+                disabled={data.present}
+              />
+            </label>
+          </div>
+
+          <label className="present-toggle">
             <input
-              type="month"
-              name="date"
-              value={data.date}
-              onChange={handleChange}
-              required
+              type="checkbox"
+              name="present"
+              checked={data.present || false}
+              onChange={(e) =>
+                updateEntry(
+                  { ...data, present: e.target.checked, to: "" },
+                  index
+                )
+              }
             />
+            Present
           </label>
 
           <div className="actions">
@@ -67,6 +99,9 @@ export default function EducationSection({
               Clear
             </button>
             <button type="submit">Submit</button>
+            <button type="button" className="delete-btn" onClick={onDelete}>
+              Delete
+            </button>
           </div>
         </form>
       ) : (
@@ -78,11 +113,16 @@ export default function EducationSection({
             <strong>Title:</strong> {data.title}
           </p>
           <p>
-            <strong>Date:</strong> {data.date}
+            <strong>Dates:</strong> {data.from} —{" "}
+            {data.present ? "Present" : data.to}
           </p>
+
           <div className="actions">
             <button type="button" onClick={onEdit}>
               Edit
+            </button>
+            <button type="button" className="delete-btn" onClick={onDelete}>
+              Delete
             </button>
           </div>
         </div>

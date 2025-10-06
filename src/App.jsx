@@ -23,13 +23,20 @@ export default function App() {
     phone: "",
   });
 
-  // Multiple entries
+  // Multiple entries (initialize with all fields so inputs are always controlled)
   const [educationList, setEducationList] = useState([
-    { school: "", title: "", date: "" },
+    { school: "", title: "", from: "", to: "", present: false },
   ]);
 
   const [experienceList, setExperienceList] = useState([
-    { company: "", position: "", responsibilities: "", from: "", to: "" },
+    {
+      company: "",
+      position: "",
+      responsibilities: "",
+      from: "",
+      to: "",
+      present: false,
+    },
   ]);
 
   // Dynamic edit mode flags
@@ -44,6 +51,25 @@ export default function App() {
     setEditMode((prev) => ({ ...prev, [key]: false }));
 
   const handleEdit = (key) => setEditMode((prev) => ({ ...prev, [key]: true }));
+
+  // Delete handlers
+  const handleDeleteEducation = (index) => {
+    setEducationList((prev) => prev.filter((_, i) => i !== index));
+    setEditMode((prev) => {
+      const updated = { ...prev };
+      delete updated[`education${index}`];
+      return updated;
+    });
+  };
+
+  const handleDeleteExperience = (index) => {
+    setExperienceList((prev) => prev.filter((_, i) => i !== index));
+    setEditMode((prev) => {
+      const updated = { ...prev };
+      delete updated[`experience${index}`];
+      return updated;
+    });
+  };
 
   return (
     <div className="app">
@@ -78,7 +104,7 @@ export default function App() {
         <EducationSection
           key={index}
           data={entry}
-          index={index} // ✅ pass index
+          index={index}
           updateEntry={(updated, i) =>
             setEducationList((prev) =>
               prev.map((item, j) => (j === i ? updated : item))
@@ -87,6 +113,7 @@ export default function App() {
           isEditing={editMode[`education${index}`] ?? true}
           onSubmit={() => handleSubmit(`education${index}`)}
           onEdit={() => handleEdit(`education${index}`)}
+          onDelete={() => handleDeleteEducation(index)}
         />
       ))}
 
@@ -96,7 +123,7 @@ export default function App() {
         onClick={() =>
           setEducationList((prev) => [
             ...prev,
-            { school: "", title: "", date: "" },
+            { school: "", title: "", from: "", to: "", present: false },
           ])
         }
       >
@@ -117,6 +144,7 @@ export default function App() {
           isEditing={editMode[`experience${index}`] ?? true}
           onSubmit={() => handleSubmit(`experience${index}`)}
           onEdit={() => handleEdit(`experience${index}`)}
+          onDelete={() => handleDeleteExperience(index)}
         />
       ))}
 
@@ -132,6 +160,7 @@ export default function App() {
               responsibilities: "",
               from: "",
               to: "",
+              present: false,
             },
           ])
         }

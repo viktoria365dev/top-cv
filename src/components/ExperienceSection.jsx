@@ -7,6 +7,7 @@ export default function ExperienceSection({
   isEditing,
   onSubmit,
   onEdit,
+  onDelete, // ✅ new prop
 }) {
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,6 +22,7 @@ export default function ExperienceSection({
         responsibilities: "",
         from: "",
         to: "",
+        present: false,
       },
       index
     );
@@ -91,15 +93,34 @@ export default function ExperienceSection({
                 name="to"
                 value={data.to}
                 onChange={handleChange}
+                disabled={data.present}
               />
             </label>
           </div>
+
+          <label className="present-toggle">
+            <input
+              type="checkbox"
+              name="present"
+              checked={data.present || false}
+              onChange={(e) =>
+                updateEntry(
+                  { ...data, present: e.target.checked, to: "" },
+                  index
+                )
+              }
+            />
+            Present
+          </label>
 
           <div className="actions">
             <button type="button" className="clear-btn" onClick={handleClear}>
               Clear
             </button>
             <button type="submit">Submit</button>
+            <button type="button" className="delete-btn" onClick={onDelete}>
+              Delete
+            </button>
           </div>
         </form>
       ) : (
@@ -115,11 +136,16 @@ export default function ExperienceSection({
           </p>
           <p>{data.responsibilities}</p>
           <p>
-            <strong>Dates:</strong> {data.from} — {data.to || "Present"}
+            <strong>Dates:</strong> {data.from} —{" "}
+            {data.present ? "Present" : data.to}
           </p>
+
           <div className="actions">
             <button type="button" onClick={onEdit}>
               Edit
+            </button>
+            <button type="button" className="delete-btn" onClick={onDelete}>
+              Delete
             </button>
           </div>
         </div>
