@@ -75,6 +75,7 @@ export default function EducationSection({
                 value={data.to}
                 onChange={handleChange}
                 disabled={data.present}
+                required={!data.present}
               />
             </label>
           </div>
